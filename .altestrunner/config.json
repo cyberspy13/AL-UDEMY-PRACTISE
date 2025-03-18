@@ -1,0 +1,16 @@
+{
+  "containerResultPath": "",
+  "launchConfigName": "My Server",
+  "securePassword": "01000000d08c9ddf0115d1118c7a00c04fc297eb01000000f95d667431b92b4eaf64e787357c7cf500000000020000000000106600000001000020000000569bafa70c1b2a51df12bccff1e17bb1e15d2322aaa111d5c83f342922c72e59000000000e80000000020000200000006fde0e63d239c2a49c12de66473ed5684c752d96fa10bba05711670cc4babfd9100000006c2b5544a99c9fca58bab29b11852e3e40000000f99f3321a998f08d27d61a86b7cb2c7c868dae1f9823d2a47900ca4ada3059b6830b147583ea0be44675ca875fdb88f335c9f1e490117169ebaed61ee226c89b",
+  "userName": "if ($null -eq (Get-Module ALTestRunner)) {Import-Module \"c:\\Users\\MihailLecari\\.vscode\\extensions\\jamespearson.al-test-runner-10.14.8\\PowerShell\\ALTestRunner.psm1\" -DisableNameChecking}",
+  "companyName": "",
+  "testSuiteName": "",
+  "vmUserName": "",
+  "vmSecurePassword": "",
+  "remoteContainerName": "",
+  "dockerHost": "",
+  "newPSSessionOptions": "",
+  "testRunnerServiceUrl": "http://d365-bc-24:7047/BC/WS//Codeunit/TestRunner?tenant=default",
+  "codeCoveragePath": ".//.altestrunner//codecoverage.json",
+  "culture": "en-US"
+}

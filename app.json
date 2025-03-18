@@ -1,0 +1,39 @@
+{
+  "id": "560e19e0-9bfd-4b01-94e6-3b30e0be7feb",
+  "name": "AL-PRACTISE",
+  "publisher": "Default Publisher",
+  "version": "1.0.0.1",
+  "dependencies": [
+    {
+      "id":  "dd0be2ea-f733-4d65-bb34-a28f4624fb14",
+      "name":  "Library Assert",
+      "publisher":  "Microsoft",
+      "version":  "24.0.0.0"
+  }
+  ],
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "24.0.0.0",
+  "idRanges": [
+    {
+      "from": 50300,
+      "to": 50349
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "runtime": "13.0",
+  "features": [
+    "NoImplicitWith"
+  ]
+}
