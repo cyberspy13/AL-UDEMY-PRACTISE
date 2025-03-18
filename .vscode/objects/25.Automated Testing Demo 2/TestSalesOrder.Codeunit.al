@@ -62,11 +62,26 @@ codeunit 50305 "Test Codeunit 3"
             Error('Sales order was not created with the correct bill-to customer number. Expected: %1, found: %2',
                 '10000', SalesOrder."Bill-to Customer No.");
 
-
-
         IsInserted := SalesOrder.Insert(true);
         if not IsInserted then
             Error('Sales order was not inserted.');
+
+        SalesOrderLine.Init();
+        SalesOrderLine.Validate("Document Type", SalesOrderLine."Document Type"::Order);
+        SalesOrderLine.Validate("Document No.", SalesOrder."No.");
+        SalesOrderLine."Line No." := 10000;
+        SalesOrderLine.Validate(Type, SalesOrderLine.Type::Item);
+        SalesOrderLine."No." := ItemNumber;
+        SalesOrderLine."Location Code" := 'MAIN';
+        SalesOrderLine.Quantity := 1;
+
+        Assert.IsTrue(SalesOrderLine.Insert(true), 'Sales order line was not inserted.');
+        Assert.AreEqual(1, SalesOrderLine.Quantity, 'Sales order line was not created with the correct quantity.');
+        Assert.AreEqual(ItemNumber, SalesOrderLine."No.", 'Sales order line was not created with the correct item number.');
+        Assert.AreEqual('MAIN', SalesOrderLine."Location Code", 'Sales order line was not created with the correct location code.');
+
+
+
 
     end;
 
