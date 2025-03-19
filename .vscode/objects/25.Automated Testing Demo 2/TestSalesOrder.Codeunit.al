@@ -23,6 +23,82 @@ codeunit 50305 "Test Codeunit 3"
     end;
 
     [Test]
+    internal procedure CreateVendor()
+    begin
+        Vendor.Init();
+        Vendor."No." := '60000';
+        VendorNumber := Vendor."No.";
+        Vendor.Name := 'Test Vendor';
+        Vendor.Address := 'Test Address';
+        Vendor."Gen. Bus. Posting Group" := 'DOMESTIC';
+        Vendor."VAT Bus. Posting Group" := 'DOMESTIC';
+        Vendor."Vendor Posting Group" := 'DOMESTIC';
+
+        Assert.IsTrue(Vendor.Insert(true), 'Vendor was not inserted.');
+        Assert.IsTrue(Vendor.Get(Vendor."No."), 'Vendor was not found after insertion.');
+        Assert.AreEqual('60000', Vendor."No.", 'Vendor was not created with the correct number.');
+        Assert.AreEqual('Test Vendor', Vendor.Name, 'Vendor was not created with the correct name.');
+        Assert.AreEqual('Test Address', Vendor.Address, 'Vendor was not created with the correct address.');
+    end;
+
+    [Test]
+    internal procedure CreatePurchaseOrder()
+    begin
+        SalesAndRecSetup.Get();
+        PurchaseOrder.Init();
+        PurchaseOrder.Validate("Document Type", PurchaseOrder."Document Type"::Order);
+        PurchaseOrder.InitInsert();
+        PurchaseOrder.InitRecord();
+        PurchaseOrder.Validate("Buy-from Vendor No.", VendorNumber);
+        //PurchaseOrderNumber = PurchaseOrder."No.";
+
+        if PurchaseOrder."Buy-from Vendor No." <> '60000' then
+            Error('Purchase order was not created with the correct vendor number. Expected: %1, found: %2',
+                '60000', PurchaseOrder."Buy-from Vendor No.");
+
+        if PurchaseOrder."Buy-from Vendor Name" <> 'Test Vendor' then
+            Error('Purchase order was not created with the correct vendor name. Expected: %1, found: %2',
+                'Test Vendor', PurchaseOrder."Buy-from Vendor Name");
+        if PurchaseOrder."Buy-from Address" <> 'Test Address' then
+            Error('Purchase order was not created with the correct address. Expected: %1, found: %2',
+                'Test Address', PurchaseOrder."Buy-from Address");
+
+        IsInserted := PurchaseOrder.Insert(true);
+        if not IsInserted then
+            Error('Purchase order was not inserted');
+
+        PurchaseOrderLine.Init();
+        PurchaseOrderLine.Validate("Document Type", PurchaseOrderLine."Document Type"::Order);
+        PurchaseOrderLine.Validate("Document No.", PurchaseOrder."No.");
+        PurchaseOrderLine."Line No." := 10000;
+        PurchaseOrderLine.Validate(Type, PurchaseOrderLine.Type::Item);
+        PurchaseOrderLine."No." := ItemNumber;
+        PurchaseOrderLine."Location Code" := 'ADVANIA';
+        PurchaseOrderLine.Quantity := 100;
+
+        Assert.IsTrue(PurchaseOrderLine.Insert(true), 'Purchase order line was not inserted.');
+        Assert.AreEqual(ItemNumber, PurchaseOrderLine."No.", 'Purchase order line was not created with the correct item number.');
+        Assert.AreEqual(100, PurchaseOrderLine.Quantity, 'Purchase order line was not created with the correct quantity.');
+        Assert.AreEqual('ADVANIA', PurchaseOrderLine."Location Code", 'Purchase order line was not created with the correct location code.');
+
+        if PurchaseOrder.Status <> PurchaseOrder.Status::Released then
+            PurchaseOrder.Status := PurchaseOrder.Status::Released;
+
+        Assert.IsTrue(PurchaseOrder.Modify(true), 'Purchase order was not released.');
+    end;
+
+    [Test]
+    internal procedure CreateWarehouseReceipt()
+    begin
+        SalesAndRecSetup.Get();
+        WarehReceipt.Init();
+        WarehReceipt."Location Code" := 'ADVANIA';
+        // WarehReceipt.Get(())
+
+
+    end;
+
+    [Test]
     internal procedure CreateCustomer()
     begin
         Customer.Init();
@@ -72,18 +148,15 @@ codeunit 50305 "Test Codeunit 3"
         SalesOrderLine."Line No." := 10000;
         SalesOrderLine.Validate(Type, SalesOrderLine.Type::Item);
         SalesOrderLine."No." := ItemNumber;
-        SalesOrderLine."Location Code" := 'MAIN';
+        SalesOrderLine."Location Code" := 'ADVANIA';
         SalesOrderLine.Quantity := 1;
 
         Assert.IsTrue(SalesOrderLine.Insert(true), 'Sales order line was not inserted.');
         Assert.AreEqual(1, SalesOrderLine.Quantity, 'Sales order line was not created with the correct quantity.');
         Assert.AreEqual(ItemNumber, SalesOrderLine."No.", 'Sales order line was not created with the correct item number.');
-        Assert.AreEqual('MAIN', SalesOrderLine."Location Code", 'Sales order line was not created with the correct location code.');
-
-
-
-
+        Assert.AreEqual('ADVANIA', SalesOrderLine."Location Code", 'Sales order line was not created with the correct location code.');
     end;
+
 
     var
         Item: Record Item;
@@ -92,11 +165,17 @@ codeunit 50305 "Test Codeunit 3"
         Assert: Codeunit "Library Assert";
         ItemNumber: Code[20];
         CustomerNumber: Code[20];
+        VendorNumber: Code[20];
         SalesOrderNumber: Code[20];
         NoSeries: Codeunit "No. Series";
         SalesAndRecSetup: record "Sales & Receivables Setup";
         SalesOrder: Record "Sales Header";
         SalesOrderLine: Record "Sales Line";
+        Vendor: Record Vendor;
+        PurchaseOrder: Record "Purchase Header";
+        PurchaseOrderLine: Record "Purchase Line";
+        WarehReceipt: Record "Warehouse Receipt Header";
+    //PurchaseOrderNumber: Code[20];
 
 
 }
