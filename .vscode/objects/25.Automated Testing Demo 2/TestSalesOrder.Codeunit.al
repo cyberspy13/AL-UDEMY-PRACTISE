@@ -50,7 +50,7 @@ codeunit 50305 "Test Codeunit 3"
         PurchaseOrder.InitInsert();
         PurchaseOrder.InitRecord();
         PurchaseOrder.Validate("Buy-from Vendor No.", VendorNumber);
-        //PurchaseOrderNumber = PurchaseOrder."No.";
+        PurchaseOrderNumber := PurchaseOrder."No.";
 
         if PurchaseOrder."Buy-from Vendor No." <> '60000' then
             Error('Purchase order was not created with the correct vendor number. Expected: %1, found: %2',
@@ -91,11 +91,15 @@ codeunit 50305 "Test Codeunit 3"
     internal procedure CreateWarehouseReceipt()
     begin
         SalesAndRecSetup.Get();
-        WarehReceipt.Init();
-        WarehReceipt."Location Code" := 'ADVANIA';
-        // WarehReceipt.Get(())
+        WarehReceiptHeader.Init();
+        WarehReceiptHeader."Location Code" := 'ADVANIA';
+        WarehReceiptHeader.Get(PurchaseOrderNumber);
 
-
+        Assert.IsTrue(WarehReceiptHeader.Insert(true), 'Warehouse receipt header was not inserted.');
+        Assert.AreEqual(PurchaseOrderNumber, WarehReceiptLine."Source No.", 'Warehouse receipt header was not created with the correct source number.');
+        Assert.AreEqual(ItemNumber, WarehReceiptLine."No.", 'Warehouse receipt line was not created with the correct item number.');
+        Assert.AreEqual(100, WarehReceiptLine.Quantity, 'Warehouse receipt line was not created with the correct quantity.');
+        Assert.AreEqual('Test Item', WarehReceiptLine.Description, 'Warehouse receipt line was not created with the correct description.');
     end;
 
     [Test]
@@ -174,8 +178,9 @@ codeunit 50305 "Test Codeunit 3"
         Vendor: Record Vendor;
         PurchaseOrder: Record "Purchase Header";
         PurchaseOrderLine: Record "Purchase Line";
-        WarehReceipt: Record "Warehouse Receipt Header";
-    //PurchaseOrderNumber: Code[20];
+        WarehReceiptHeader: Record "Warehouse Receipt Header";
+        WarehReceiptLine: Record "Warehouse Receipt Line";
+        PurchaseOrderNumber: Code[20];
 
 
 }
