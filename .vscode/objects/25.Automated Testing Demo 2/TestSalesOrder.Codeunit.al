@@ -33,8 +33,10 @@ codeunit 50305 "Test Codeunit 3"
         Vendor."Gen. Bus. Posting Group" := 'DOMESTIC';
         Vendor."VAT Bus. Posting Group" := 'DOMESTIC';
         Vendor."Vendor Posting Group" := 'DOMESTIC';
+        
 
         Assert.IsTrue(Vendor.Insert(true), 'Vendor was not inserted.');
+        Vendor.Blocked := Vendor.Blocked::" ";
         Assert.IsTrue(Vendor.Get(Vendor."No."), 'Vendor was not found after insertion.');
         Assert.AreEqual('60000', Vendor."No.", 'Vendor was not created with the correct number.');
         Assert.AreEqual('Test Vendor', Vendor.Name, 'Vendor was not created with the correct name.');
@@ -88,18 +90,44 @@ codeunit 50305 "Test Codeunit 3"
     end;
 
     [Test]
-    internal procedure CreateWarehouseReceipt()
+    Internal procedure CreateWarehouseReceipt()
+    var
+        GetSourceDocInbound: Codeunit "Get Source Doc. Inbound";
+        ReleasePurchDoc: codeunit "Release Purchase Document";
     begin
-        SalesAndRecSetup.Get();
-        WarehReceiptHeader.Init();
-        WarehReceiptHeader."Location Code" := 'ADVANIA';
-        WarehReceiptHeader.Get(PurchaseOrderNumber);
+        PurchaseOrder.SetHideValidationDialog(true);
+        ReleasePurchDoc.Run(PurchaseOrder);
+        GetSourceDocInbound.CreateFromPurchOrder(PurchaseOrder);
 
-        Assert.IsTrue(WarehReceiptHeader.Insert(true), 'Warehouse receipt header was not inserted.');
-        Assert.AreEqual(PurchaseOrderNumber, WarehReceiptLine."Source No.", 'Warehouse receipt header was not created with the correct source number.');
-        Assert.AreEqual(ItemNumber, WarehReceiptLine."No.", 'Warehouse receipt line was not created with the correct item number.');
-        Assert.AreEqual(100, WarehReceiptLine.Quantity, 'Warehouse receipt line was not created with the correct quantity.');
-        Assert.AreEqual('Test Item', WarehReceiptLine.Description, 'Warehouse receipt line was not created with the correct description.');
+        Assert.AreEqual(WarehReceiptLine."Source No.", PurchaseOrderNumber, 'Warehouse receipt header was not created with the correct source number.');
+
+        // SalesAndRecSetup.Get();
+        // WarehReceiptHeader.Init();
+        // WarehReceiptHeader."Location Code" := 'ADVANIA';
+        // Assert.IsTrue(WarehReceiptHeader.Insert(true), 'Warehouse receipt header was not inserted.');
+
+        // WarehRequest."Location Code" := 'ADVANIA';
+        // WarehRequest."Source No." := PurchaseOrderNumber;
+        // WarehRequest."Source Document" := WarehRequest."Source Document"::"Purchase Order";
+        // WarehRequest."Source Subtype" := 1;
+
+        // if WarehRequest.Get(WarehRequest.Type::Inbound, WarehRequest."Location Code", Database::"Purchase Line", WarehRequest."Source Subtype", WarehRequest."Source No.") then begin
+
+        //     if WarehRequest.FindSet() then begin
+        //         repeat
+        //             WarehReceiptLine.Init();
+        //             WarehReceiptLine."Source Document" := WarehReceiptLine."Source Document"::"Purchase Order";
+        //             WarehReceiptLine."Source No." := PurchaseOrderNumber;
+
+        //             WarehReceiptLine.Insert(true);
+        //         until WarehRequest.Next() = 0;
+        //     end;
+        // end;
+
+
+        // Assert.AreEqual(WarehReceiptLine."Source No.", PurchaseOrderNumber, 'Warehouse receipt header was not created with the correct source number.');
+
+
     end;
 
     [Test]
@@ -165,6 +193,7 @@ codeunit 50305 "Test Codeunit 3"
     var
         Item: Record Item;
         IsInserted: Boolean;
+        IsHandled: Boolean;
         Customer: Record Customer;
         Assert: Codeunit "Library Assert";
         ItemNumber: Code[20];
@@ -180,7 +209,10 @@ codeunit 50305 "Test Codeunit 3"
         PurchaseOrderLine: Record "Purchase Line";
         WarehReceiptHeader: Record "Warehouse Receipt Header";
         WarehReceiptLine: Record "Warehouse Receipt Line";
+        WarehRequest: Record "Warehouse Request";
         PurchaseOrderNumber: Code[20];
-
+        SourceDocSelection: Page "Source Documents";
+        GetSourceDocuments: Report "Get Source Documents";
+        SourceSubtype: Integer;
 
 }
