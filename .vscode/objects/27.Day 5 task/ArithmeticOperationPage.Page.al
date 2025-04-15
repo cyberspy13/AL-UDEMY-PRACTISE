@@ -29,11 +29,16 @@ page 50301 ArithmeticOperationsPage
                 {
                     ApplicationArea = All;
                 }
-
+                field(Result; Rec.Result)
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
 
 
             }
         }
+
     }
 
     actions
@@ -42,7 +47,6 @@ page 50301 ArithmeticOperationsPage
         {
             action(Sum)
             {
-
                 trigger OnAction()
                 begin
                     Message('Sum of %1 and %2 is %3', Rec.Number1, Rec.Number2, Rec.Number1 + Rec.Number2);
@@ -50,7 +54,6 @@ page 50301 ArithmeticOperationsPage
             }
             action(Difference)
             {
-
                 trigger OnAction()
                 begin
                     Message('Difference of %1 and %2 is %3', Rec.Number1, Rec.Number2, Rec.Number1 - Rec.Number2);
@@ -59,7 +62,6 @@ page 50301 ArithmeticOperationsPage
             }
             action(Product)
             {
-
                 trigger OnAction()
                 begin
                     Message('Product of %1 and %2 is %3', Rec.Number1, Rec.Number2, Rec.Number1 * Rec.Number2);
@@ -67,7 +69,6 @@ page 50301 ArithmeticOperationsPage
             }
             action(Quotient)
             {
-
                 trigger OnAction()
                 begin
                     Message('Quotient of %1 and %2 is %3', Rec.Number1, Rec.Number2, Rec.Number1 / Rec.Number2);
@@ -75,7 +76,6 @@ page 50301 ArithmeticOperationsPage
             }
             action(Remainder)
             {
-
                 trigger OnAction()
                 begin
                     Message('Remainder of %1 and %2 is %3', Rec.Number1, Rec.Number2, Rec.Number1 mod Rec.Number2);
@@ -96,10 +96,81 @@ page 50301 ArithmeticOperationsPage
                 var
                     ArithmeticOperationRecord: Record ArithmeticOperationsTable;
                 begin
-
                     ArithmeticOperationRecord.CheckVotingAge(Rec.Age);
                 end;
             }
+            action("Unary Operator")
+            {
+                trigger OnAction()
+                var
+                    ArithmeticOperationRecord: Record ArithmeticOperationsTable;
+
+                begin
+                    ArithmeticOperationRecord.CheckUnaryOperation(Rec.Number1);
+                end;
+            }
+
+            action("Binary Operator")
+            {
+                trigger OnAction()
+                var
+                    ArithmeticOperationRecord: Record ArithmeticOperationsTable;
+
+                begin
+                    ArithmeticOperationRecord.CheckBinaryOperation(Rec.Number1, Rec.Number2);
+                end;
+            }
+            action("Display List")
+            {
+                trigger OnAction()
+                var
+                    ArithmeticOperationRecord: Record ArithmeticOperationsTable;
+                begin
+                    ArithmeticOperationRecord.ProductQuantities();
+                end;
+            }
+            action("Add Qty")
+            {
+                trigger OnAction()
+                var
+                    ArithmeticOperationRecord: Record ArithmeticOperationsTable;
+                begin
+                    ArithmeticOperationRecord.AddQty();
+                end;
+            }
+            action("Update Qty")
+            {
+                trigger OnAction()
+                var
+                    ArithmeticOperationRecord: Record ArithmeticOperationsTable;
+                begin
+                    ArithmeticOperationRecord.UpdateQty();
+
+                end;
+            }
+            action("Dictionary Product Proces")
+            {
+                trigger OnAction()
+                var
+                    ArithmeticOperationRecord: Record ArithmeticOperationsTable;
+                begin
+                    ArithmeticOperationRecord.DictionaryProductProcess();
+                end;
+            }
+            action("Add new items to the Dictionary")
+            {
+                trigger OnAction()
+                var
+                ArithmeticOperationRecord: Record ArithmeticOperationsTable;
+                begin
+                    ArithmeticOperationRecord.AddNewItemsToDictionary();
+
+                end;
+            }
+
+
+
         }
+
     }
 }
