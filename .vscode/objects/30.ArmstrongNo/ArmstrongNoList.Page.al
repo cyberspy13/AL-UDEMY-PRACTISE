@@ -51,6 +51,15 @@ page 50304 "Arstrong No. List"
 
                 end;
             }
+            action("Validate the Armstrong No.")
+            {
+                trigger OnAction()
+                var
+                    ArmstrongNoCodeunit: Codeunit "ArmstrongNo Codeunit";
+                begin
+                    ArmstrongNoCodeunit.ValidateArmstrongNo(Rec);
+                end;
+            }
         }
     }
 
