@@ -18,13 +18,15 @@ codeunit 50304 "ArmstrongNo Codeunit"
     procedure ValidateArmstrongNo(var Rec: Record "Armstrong No Table")
     var
         ArmstrongNoList: List of [Integer];
-        //ArmstrongNoArray: array of Integer;
+        ArmstrongNoTextList: List of [Text];
         InputNo: Integer;
         Count: Integer;
         Sum: Integer;
         StringValue: Text[5];
         I: Integer;
         CurrentChar: Text[1]; // Variable to hold the current character
+        InputInteger: Integer;
+
     begin
 
         InputNo := Rec.ArmstrongNo;
@@ -32,24 +34,20 @@ codeunit 50304 "ArmstrongNo Codeunit"
         Count := StrLen(StringValue);// Get the length of the number
 
         Clear(ArmstrongNoList); // Clear the list before use
-        for I := 1 to Count do
-            CurrentChar := StringValue[I]; // Get the character at position I
-        if Evaluate(I, CurrentChar) then
-            ArmstrongNoList.Add(I); // Convert the character to an integer and add it to the list   
 
+        for I := 1 to Count do begin
+            CurrentChar := StringValue[I]; // Get the character at position I - this is like a loop where I it is a position in the list 1-1/2-2/3/3
+            // ArmstrongNoTextList.Add(CurrentChar); // Add the character to the list -this is working fine
+            if Evaluate(InputInteger, CurrentChar) then; // Convert the character to an integer
+            ArmstrongNoList.Add(InputInteger); // Add the integer to the list
 
+        end;
     end;
 
 
 
 
-    //     ArmstrongNoList.Add(Rec.No);
-    //     Count := ArmstrongNoList.Count();
 
-    //     if ArmstrongNoList.Count() > 0 then begin
-    //         Sum := 
-    //     end;
-    // end;
 
 
 }
