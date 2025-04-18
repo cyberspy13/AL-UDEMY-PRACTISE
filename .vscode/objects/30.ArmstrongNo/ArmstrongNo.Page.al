@@ -17,6 +17,7 @@ page 50303 "Armstrong No. Page Card"
                     Caption = 'No';
                     ToolTip = 'Enter the number to check if it is an Armstrong number.';
                     Editable = false;
+                    Visible = false;
                 }
                 field(ArmstrongNo; Rec.ArmstrongNo)
                 {
@@ -29,6 +30,8 @@ page 50303 "Armstrong No. Page Card"
                     ApplicationArea = All;
                     Caption = 'Description';
                     ToolTip = 'Description of the Armstrong number.';
+                    Editable = false;
+                    Visible = false;
                 }
 
 
@@ -55,6 +58,6 @@ page 50303 "Armstrong No. Page Card"
     var
         ArmstrongNoCodeunit: Codeunit "ArmstrongNo Codeunit";
     begin
-      //  ArmstrongNoCodeunit.CheckArmstrongNo(Rec);
+        //  ArmstrongNoCodeunit.CheckArmstrongNo(Rec);
     end;
 }

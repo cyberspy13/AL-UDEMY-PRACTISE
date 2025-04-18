@@ -26,6 +26,7 @@ codeunit 50304 "ArmstrongNo Codeunit"
         I: Integer;
         CurrentChar: Text[1]; // Variable to hold the current character
         InputInteger: Integer;
+        EachValueResult: Integer;
 
     begin
 
@@ -40,8 +41,19 @@ codeunit 50304 "ArmstrongNo Codeunit"
             // ArmstrongNoTextList.Add(CurrentChar); // Add the character to the list -this is working fine
             if Evaluate(InputInteger, CurrentChar) then; // Convert the character to an integer
             ArmstrongNoList.Add(InputInteger); // Add the integer to the list
-
         end;
+        Sum := 0;
+        foreach EachValueResult in ArmstrongNoList do begin
+            //Count := StrLen(Format(EachValueResult)); 
+            Sum := Sum + Power(EachValueResult, Count)
+        end;
+
+        if Sum = InputNo then begin
+            Rec.Description := 'The entered number is an Armstrong No';
+        end else begin
+            Rec.Description := 'The entered number is not an Armstrong No';
+        end;
+        Rec.Modify();
     end;
 
 

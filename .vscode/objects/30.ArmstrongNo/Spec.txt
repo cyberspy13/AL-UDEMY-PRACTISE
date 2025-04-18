@@ -1,0 +1,19 @@
+Armstrong No. logic:
+
+Examples of Armstrong Numbers
+Example 1: 153
+
+To determine if 153 is an Armstrong number:
+Count the digits: 153 has 3 digits.
+Raise each digit to the power of 3 and sum them: (1^3 = 1) (5^3 = 125) (3^3 = 27)
+Sum these values: (1 + 125 + 27 = 153)
+
+How to implement in the code:
+
+1. We need to take the input as a variable. Seems like it is going to be an Integers - DONE
+2. Count how many digits the input number. - DONE
+3. Store this digit in the var. - DONE
+4. Take each digit and multiply by the quantity of the input number. - DONE	
+5. Sum all multiplied values.- DONE
+6. Compare with original input value.- DONE
+7. If these numbers are the same we should have notification message says: - "This number is Armstrong No." or "This number is not an Armstrong no." - DONE
