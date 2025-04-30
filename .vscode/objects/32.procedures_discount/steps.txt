@@ -1,0 +1,20 @@
+Exercise
+
+Exercise Scenario: Online Store Discount
+
+You are developing an online store application, and you need to implement a simple discount 
+calculation for a customer's purchase. The discount is a fixed 10% on the total purchase amount.
+
+1. Create a Codeunit (e.g., "OnlineStoreDiscount"):
+• Define a procedure named CalculateTotalWithDiscount that does not take any 
+parameters.
+• Inside the procedure, declare a variable for the total purchase amount (e.g., 
+TotalAmount) and calculate the discounted total (10% off) based on a predefined 
+purchase amount (e.g., 200.00).
+
+2. Call the Procedure in a Main Section:
+• Create a main procedure that calls CalculateTotalWithDiscount.
+• Display the original total and the discounted total in a message dialog.
+
+3. Run the Application:
+• Run the codeunit to see the results.
