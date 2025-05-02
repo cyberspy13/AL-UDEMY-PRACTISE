@@ -37,7 +37,7 @@ table 50303 "Armstrong No Table"
         ArmsRecord: Record "Armstrong No Table";
     begin
         if ArmsRecord.FindLast() then begin
-            NewNo := ArmsRecord.No + 1; 
+            NewNo := ArmsRecord.No + 1;
         end else begin
             NewNo := 1;
         end;

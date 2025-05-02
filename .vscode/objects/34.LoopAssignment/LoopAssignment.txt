@@ -1,0 +1,13 @@
+Exercise
+Exercise Scenario: Employee Leave Calculation
+Scenario: You are developing a human resources application for a company to manage employee 
+leaves. The system stores employee information in a table called EmployeeInfo with fields such as 
+EmployeeID, EmployeeName, TotalLeaves, and LeavesTaken. The task is to calculate the remaining 
+leaves for each employee based on the total leaves allowed and the leaves already taken.
+Instructions:
+1. You need to iterate through the EmployeeInfo table to calculate the remaining leaves for each 
+employee.
+2. If an employee has taken more leaves than the allowed total, they are considered to have a 
+negative leave balance.
+3. Display a message for each employee indicating their leave balance status (e.g., "Positive Leave 
+Balance," "Zero Leave Balance," or "Negative Leave Balance")
